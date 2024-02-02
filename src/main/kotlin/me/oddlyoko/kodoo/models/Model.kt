@@ -7,6 +7,10 @@ abstract class Model(
     val modelName: String,
 ) {
 
+    open fun browse(ids: Array<Int>, fields: Array<String> = arrayOf()): List<Map<String, Any>> {
+        return searchRead(arrayOf(arrayOf("id", "in", ids)), fields = fields)
+    }
+
     open fun search(domain: Array<Array<Any>>, offset: Int = 0, limit: Int = 0, order: String? = null): List<Int> {
         val result = kOdoo.executeKw(
             targetModel = modelName,
@@ -43,6 +47,17 @@ abstract class Model(
         if (result is Array<*>) {
             return result.map { it as Map<String, Any> }
         }
+        return listOf()
+    }
+
+    open fun create(vals: Array<Map<String, Any>>): List<Int> {
+        val result = kOdoo.executeKw(
+            targetModel = modelName,
+            targetMethod = "create",
+            params = listOf(vals),
+        )
+        if (result is Array<*>)
+            return result.map { it as Int }
         return listOf()
     }
 }
