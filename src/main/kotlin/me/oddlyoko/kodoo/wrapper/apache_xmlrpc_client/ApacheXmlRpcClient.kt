@@ -1,12 +1,11 @@
 package me.oddlyoko.kodoo.wrapper.apache_xmlrpc_client
 
-import me.oddlyoko.kodoo.KOdoo
 import me.oddlyoko.kodoo.models.ServerVersionInfo
 import me.oddlyoko.kodoo.models.Version
 import me.oddlyoko.kodoo.wrapper.XmlRpcWrapper
+import org.apache.xmlrpc.XmlRpcException
 import org.apache.xmlrpc.client.XmlRpcClient
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl
-import java.lang.IllegalStateException
 import java.net.URL
 import kotlin.properties.Delegates
 
@@ -59,6 +58,10 @@ class ApacheXmlRpcClient: XmlRpcWrapper {
         params: List<Any>,
         map: Map<String, Any?>,
     ): Any {
-        return client.execute(objectConfig, methodName, listOf(database, uid, password, targetModel, targetMethod, params, map))
+        try {
+            return client.execute(objectConfig, methodName, listOf(database, uid, password, targetModel, targetMethod, params, map))
+        } catch (ex: XmlRpcException) {
+            throw me.oddlyoko.kodoo.exceptions.XmlRpcException("An exception has occurred while executing the RPC request:", ex)
+        }
     }
 }

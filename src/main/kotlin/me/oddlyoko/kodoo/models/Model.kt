@@ -60,4 +60,13 @@ abstract class Model(
             return result.map { it as Int }
         return listOf()
     }
+
+    open fun write(ids: Array<Int>, vals: Map<String, Any>): Boolean {
+        val result = kOdoo.executeKw(
+            targetModel = modelName,
+            targetMethod = "write",
+            params = listOf(ids, vals),
+        )
+        return result as Boolean
+    }
 }

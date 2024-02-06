@@ -29,22 +29,31 @@ fun main() {
     val Partners = kOdoo[ResPartner::class.java]
 
     // Search on all partners
-//    val partners = kOdoo[ResPartner::class.java].search(arrayOf(arrayOf("name", "ilike", "a")), limit = 5)
+//    val partners = Partners.search(arrayOf(arrayOf("name", "ilike", "a")), limit = 5)
 //    println("Partners = $partners")
 //
-//    val partnerCount = kOdoo[ResPartner::class.java].searchCount(arrayOf(arrayOf("name", "ilike", "a")))
+//    val partnerCount = Partners.searchCount(arrayOf(arrayOf("name", "ilike", "a")))
 //    println("Partners = $partnerCount")
 //
-//    val partnerRead = kOdoo[ResPartner::class.java].searchRead(arrayOf(arrayOf("name", "ilike", "a")), arrayOf("name"))
+//    val partnerRead = Partners.searchRead(arrayOf(arrayOf("name", "ilike", "a")), arrayOf("name"))
 //    println("Partners = $partnerRead")
 
-    val newPartner = Partners.create(arrayOf(
-        mapOf(
-            "name" to "Test",
-        )
-    ))
-    println("New partner = $newPartner")
+//    val newPartner = Partners.create(arrayOf(
+//        mapOf(
+//            "name" to "Test",
+//        )
+//    ))
+//    println("New partner = $newPartner")
+    val newPartner = Partners.search(arrayOf(arrayOf("name", "ilike", "Test")), limit=1)
 
     val partner = Partners.browse(newPartner.toTypedArray(), arrayOf("name", "create_date"))
     println("Partner = $partner")
+
+    val partnerId = partner[0]["id"] as Int
+    println("Partner id = $partnerId")
+
+    val result = Partners.write(arrayOf(partnerId), mapOf(
+        "phone" to "+32496012345",
+    ))
+    println("Result = $result")
 }
