@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.22"
+    id("com.github.johnrengelman.shadow") version "7.1.1"
     id("maven-publish")
 }
 
@@ -42,4 +43,8 @@ tasks.test {
 
 kotlin {
     jvmToolchain(17)
+}
+
+tasks.named("shadowJar", com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar::class) {
+    mergeServiceFiles()
 }
