@@ -69,4 +69,12 @@ abstract class Model(
         )
         return result as Boolean
     }
+
+    open fun unlink(ids: Array<Int>) {
+        kOdoo.executeKw(
+            targetModel = modelName,
+            targetMethod = "unlink",
+            params = listOf(ids),
+        )
+    }
 }
